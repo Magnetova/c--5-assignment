@@ -18,7 +18,7 @@ namespace cis237_assignment_5
             int choice = userInterface.DisplayMenuAndGetResponse();
 
             // While the choice is not exit program
-            while (choice != 5)
+            while (choice != 6)
             {
                 switch (choice)
                 {
@@ -28,21 +28,55 @@ namespace cis237_assignment_5
                         break;
 
                     case 2:
-                        // Update the database
+                        // Update a beverage
+                        string updateID = userInterface.GetBeverageId("update");
 
-
-                    case 2:
-                        // Search For An Item
-                        
+                        if (beverageRepository.CheckID(updateID))
+                        {
+                            userInterface.DisplayItemFound(beverageRepository.FindBeverage(updateID));
+                            beverageRepository.Update(updateID, userInterface.GetNewItemInformation("existing"));
+                            userInterface.DisplayItemUpdateSuccess(beverageRepository.FindBeverage(updateID));
+                        }
+                        else
+                            userInterface.DisplayItemFoundError();
                         break;
 
                     case 3:
-                        // Add A New Item To The List
-                        beverageRepository.Insert(userInterface.GetNewItemInformation());
+                        // Search for a beverage
+       
+                        string searchID = userInterface.GetBeverageId("search");
+
+                        if (beverageRepository.CheckID(searchID))
+                            userInterface.DisplayItemFound(beverageRepository.FindBeverage(searchID));
                         else
+                            userInterface.DisplayItemFoundError();
+                        break;
+
+                    case 4:
+                        // Delete a beverage
+                        string deleteID = userInterface.GetBeverageId("delete");
+
+                        if (beverageRepository.CheckID(deleteID))
                         {
-                            userInterface.DisplayItemAlreadyExistsError();
+                            beverageRepository.Delete(deleteID);
+                            userInterface.DisplayItemDeleteSuccess();
                         }
+                        else
+                            userInterface.DisplayItemFoundError();
+                        break;
+
+
+                    case 5:
+                        // Add A New Item To The List
+                        string insertID = userInterface.GetBeverageId("create");
+
+                        if (!beverageRepository.CheckID(insertID))
+                        {
+                            beverageRepository.Insert(insertID, userInterface.GetNewItemInformation("created"));
+                            userInterface.DisplayAddWineItemSuccess(beverageRepository.FindBeverage(insertID));
+                        }
+                        else
+                            userInterface.DisplayItemAlreadyExistsError(beverageRepository.FindBeverage(insertID));
                         break;
                 }
 

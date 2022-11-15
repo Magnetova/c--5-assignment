@@ -14,22 +14,23 @@ namespace cis237_assignment_5
             string output = null;
             foreach (Beverage beverage in _beverageContext.Beverages )
             {
-                output += beverage + Environment.NewLine;
+                output += BeverageToString(beverage) + Environment.NewLine;
             }
             return output;
         }
 
 
-        public void Insert(string[] Data)
+        public void Insert(string ID, string[] Data)
         {
             Beverage newBeverage = new Beverage();
 
+
             // Assing properties to the parts of the model
-            newBeverage.Id = Data[0];
-            newBeverage.Name = Data[1];
-            newBeverage.Pack = Data[2];
-            newBeverage.Price = Decimal.Parse(Data[3]);
-            newBeverage.Active = Convert.ToBoolean(Data[4]);
+            newBeverage.Id = ID;
+            newBeverage.Name = Data[0];
+            newBeverage.Pack = Data[1];
+            newBeverage.Price = Decimal.Parse(Data[2]);
+            newBeverage.Active = Convert.ToBoolean(Data[3]);
 
             try
             {
@@ -49,16 +50,67 @@ namespace cis237_assignment_5
             }
         }
 
-
-        public void Update()
+        public string FindBeverage(string ID)
         {
+            Beverage _searchedBeverage = _beverageContext.Beverages.Find(ID);
+
+            return BeverageToString(_searchedBeverage);
 
         }
 
 
-        public void Delete()
+        public void Update(string ID, string[] Data)
         {
+            Beverage _beverageToUpdate = _beverageContext.Beverages.Find(ID);
 
+
+            if(Data[0] != null)
+                _beverageToUpdate.Name = Data[0];
+            if(Data[1] != null)
+                _beverageToUpdate.Pack = Data[1];
+            if(Data[2] != null)
+                _beverageToUpdate.Price = Decimal.Parse(Data[2]);
+            if(Data[3] != null)
+                _beverageToUpdate.Active = Convert.ToBoolean(Data[3]);
+
+            _beverageContext.SaveChanges();
+
+        }
+
+
+        public void Delete(string ID)
+        {
+            Beverage _beverageToDelete = _beverageContext.Beverages.Find(ID);
+            _beverageContext.Beverages.Remove(_beverageToDelete);
+            _beverageContext.SaveChanges();
+        }
+
+
+        public string BeverageToString(Beverage beverage)
+        {
+            return String.Format(
+                "{0,-6} {1,-5} {2,-15} {3,6} {4,-6}",
+                $"{beverage.Id}",
+                $"{beverage.Name}",
+                $"{beverage.Pack}",
+                $"{beverage.Price}",
+                $"{beverage.Active}"
+            ) +
+            Environment.NewLine;
+        }
+
+        public bool CheckID(string ID)
+        {
+           Beverage _checkBeverage = _beverageContext.Beverages.Find(ID);
+
+            if(_checkBeverage == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }
