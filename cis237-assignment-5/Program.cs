@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Cayden Greer
+// CIS 237 - Fall 2022
+// 11-16-2022
+
+using System;
 
 namespace cis237_assignment_5
 {
@@ -23,12 +27,12 @@ namespace cis237_assignment_5
                 switch (choice)
                 {
                     case 1:
-                        // Print Entire List Of Items
+                        // Print all beverage items from the database
                         userInterface.DisplayAllItems(beverageRepository.Read());
                         break;
 
                     case 2:
-                        // Update a beverage
+                        // Update a beverage within the database
                         string updateID = userInterface.GetBeverageId("update");
 
                         if (beverageRepository.CheckID(updateID))
@@ -42,7 +46,7 @@ namespace cis237_assignment_5
                         break;
 
                     case 3:
-                        // Search for a beverage
+                        // Search for a beverage in the database
        
                         string searchID = userInterface.GetBeverageId("search");
 
@@ -53,13 +57,21 @@ namespace cis237_assignment_5
                         break;
 
                     case 4:
-                        // Delete a beverage
+                        // Delete a beverage from the database
                         string deleteID = userInterface.GetBeverageId("delete");
 
                         if (beverageRepository.CheckID(deleteID))
                         {
-                            beverageRepository.Delete(deleteID);
-                            userInterface.DisplayItemDeleteSuccess();
+                            userInterface.DisplayItemFound(beverageRepository.FindBeverage(deleteID));
+                            if (userInterface.UserConfirmation())
+                            {
+                                beverageRepository.Delete(deleteID);
+                                userInterface.DisplayItemDeleteSuccess();
+                            }
+                            else
+                            {
+                                userInterface.CancelOperation();
+                            }
                         }
                         else
                             userInterface.DisplayItemFoundError();
@@ -67,7 +79,7 @@ namespace cis237_assignment_5
 
 
                     case 5:
-                        // Add A New Item To The List
+                        // Add a new beverage item to the database 
                         string insertID = userInterface.GetBeverageId("create");
 
                         if (!beverageRepository.CheckID(insertID))

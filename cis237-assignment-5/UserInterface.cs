@@ -1,4 +1,8 @@
-﻿using System;
+﻿// Cayden Greer
+// CIS 237 - Fall 2022
+// 11-16-2022
+
+using System;
 
 namespace cis237_assignment_5
 {
@@ -62,9 +66,9 @@ namespace cis237_assignment_5
         public string[] GetNewItemInformation(string itemType)
         {
             string name = this.GetStringField("Name", itemType);
-            string pack = this.GetStringField("Pack",itemType);
-            string price = this.GetDecimalField("Price",itemType);
-            string active = this.GetBoolField("Active",itemType);
+            string pack = this.GetStringField("Pack", itemType);
+            string price = this.GetDecimalField("Price", itemType);
+            string active = this.GetBoolField("Active", itemType);
 
             return new string[] { name, pack, price, active };
         }
@@ -86,7 +90,7 @@ namespace cis237_assignment_5
 
         }
 
-        // Display Item Found Success
+        // Display Item Found Success and the information of the found item
         public void DisplayItemFound(string itemInformation)
         {
             Console.WriteLine();
@@ -108,7 +112,7 @@ namespace cis237_assignment_5
             Console.ForegroundColor = ConsoleColor.Gray;
         }
 
-        // Display Add Wine Item Success
+        // Display Add Wine Item Success and the information of the added item
         public void DisplayAddWineItemSuccess(string itemInformation)
         {
             Console.WriteLine();
@@ -118,6 +122,8 @@ namespace cis237_assignment_5
             Console.WriteLine(itemInformation);
             Console.ForegroundColor = ConsoleColor.Gray;
         }
+
+        // Display that the item was successfully deleted from the database
         public void DisplayItemDeleteSuccess()
         {
             Console.WriteLine();
@@ -126,6 +132,7 @@ namespace cis237_assignment_5
             Console.ForegroundColor = ConsoleColor.Gray;
         }
 
+        //Display that the item had updated in the database and prints updated item information
         public void DisplayItemUpdateSuccess(string itemInformation)
         {
             Console.WriteLine();
@@ -330,6 +337,51 @@ namespace cis237_assignment_5
                 new String('-', 6),
                 new String('-', 5)
             );
+        }
+
+
+        // Asks the user if they are sure that the item that corresponds with the entered id
+        // is the one that they wish to delete from the database.
+        public bool UserConfirmation()
+        {
+            Console.WriteLine("Are you sure you want to delete this item from the database? (y for yes, n for no)");
+            string input = null;
+            bool value = false;
+            bool valid = false;
+            while (!valid)
+            {
+                input = Console.ReadLine();
+                if (input.ToLower() == "y" || input.ToLower() == "n")
+                {
+                    valid = true;
+                    if (input == "y")
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("That is not a valid Entry.");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    Console.WriteLine();
+                    Console.WriteLine("Are you sure you want to delete this item from the database? (y for yes, n for no)");
+                    Console.Write("> ");
+                }
+            }
+            return false;
+
+        }
+
+        // cancels the operation of deleting an item from the database if the user answers "n" 
+        public void CancelOperation()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Operation has been cancelled");
         }
     }
 }
