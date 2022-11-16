@@ -2,7 +2,7 @@
 
 ## Author
 
-
+Cayden Greer
 
 ## Description
 
@@ -80,8 +80,8 @@ Solution Requirements:
 
 ## Outside Resources Used
 
-
+N/A
 
 ## Known Problems, Issues, And/Or Errors in the Program
 
-
+There are no known problems within the program.
